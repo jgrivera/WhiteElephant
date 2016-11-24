@@ -1,2 +1,0 @@
-# WhiteElephant
-White Elephant
