@@ -34,18 +34,17 @@
 
         <!-- Items -->
         <div class="collapse navbar-collapse" id="topNavBar">
-            <ul class="nav nav-tabs">
+            <ul class="nav navbar-nav">
                 <li class="{% block albums_active %}{% endblock %}"><a href="{% url 'game:index' %}"><span class="glyphicon glyphicon-cd" aria-hidden="true"></span>&nbsp; Albums</a></li>
                 <li class="{% block songs_active %}{% endblock %}"><a href="{% url 'game:songs' 'all' %}"><span class="glyphicon glyphicon-music" aria-hidden="true"></span>&nbsp; Songs</a></li>
-
+            </ul>
             <form class="navbar-form navbar-left" role="search" method="get" action="{% url 'game:index' %}">
                 <div class="form-group">
                     <input type="text" class="form-control" name="q" value="{{ request.GET.q }}">
                 </div>
                 <button type="submit" class="btn btn-default">Search</button>
             </form>
-
-            <div class="nav navbar-nav navbar-right">
+            <ul class="nav navbar-nav navbar-right">
                 <li>
                     <a href="{% url 'game:create_album' %}">
                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp; Add Album
@@ -56,7 +55,6 @@
                         <span class="glyphicon glyphicon-off" aria-hidden="true"></span>&nbsp; Logout
                     </a>
                 </li>
-            <div/>
             </ul>
         </div>
 
