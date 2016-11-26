@@ -1,8 +1,28 @@
-
-from __future__ import unicode_literals
-
+from django.contrib.auth.models import Permission, User
 from django.db import models
 
+
+class Album(models.Model):
+    user = models.ForeignKey(User, default=1)
+    artist = models.CharField(max_length=250)
+    album_title = models.CharField(max_length=500)
+    genre = models.CharField(max_length=100)
+    album_logo = models.FileField()
+    is_favorite = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.album_title + ' - ' + self.artist
+
+
+class Song(models.Model):
+    album = models.ForeignKey(Album, on_delete=models.CASCADE)
+    song_title = models.CharField(max_length=250)
+    audio_file = models.FileField(default='')
+    is_favorite = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.song_title
+#  Models for WhiteElephant
 
 class Addresses(models.Model):
     address_1 = models.CharField(max_length=45)
@@ -12,6 +32,7 @@ class Addresses(models.Model):
     country_id = models.IntegerField()
     city_id = models.IntegerField()
     zip_id = models.IntegerField()
+    zip_id2 = models.IntegerField()
 
     class Meta:
         managed = False
@@ -332,12 +353,3 @@ class Users(models.Model):
         managed = False
         db_table = 'Users'
 
-
-class DjangoMigrations(models.Model):
-    app = models.CharField(max_length=255)
-    name = models.CharField(max_length=255)
-    applied = models.DateTimeField()
-
-    class Meta:
-        managed = False
-        db_table = 'django_migrations'

@@ -1,6 +1,10 @@
 from django.contrib import admin
-from .models import Addresses, Affiliates, Amazon, Emails, Facebook, Gamegifts, Games, Gifttrails, Gifttypes, Gifts, Github, Google, Integrations, Logins, Messages, Moods, Notificationtypes, Notifications, Passwords, Paypal, Phonenumbers, Players, Playersmoods, Prices, Roles, Status, Twillio, Twitter, Usps, Users, DjangoMigrations
-# Register your models here.
+from .models import Album, Song, Addresses, Affiliates, Amazon, Emails, Facebook, Gamegifts, Games, Gifttrails, Gifttypes, Gifts, Github, Google, Integrations, Logins, Messages, Moods, Notificationtypes, Notifications, Passwords, Paypal, Phonenumbers, Players, Playersmoods, Prices, Roles, Status, Twillio, Twitter, Usps, Users
+
+
+admin.site.register(Album)
+admin.site.register(Song)
+
 admin.site.register(Addresses)
 admin.site.register(Affiliates)
 admin.site.register(Amazon)
@@ -31,4 +35,3 @@ admin.site.register(Twillio)
 admin.site.register(Twitter)
 admin.site.register(Usps)
 admin.site.register(Users)
-admin.site.register(DjangoMigrations)

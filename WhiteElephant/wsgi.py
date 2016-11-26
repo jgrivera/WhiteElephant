@@ -1,5 +1,5 @@
 """
-WSGI config for WhiteElephant project.
+WSGI config for game project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
