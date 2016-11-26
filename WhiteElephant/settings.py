@@ -1,5 +1,10 @@
 import os
 
+from configurations import Configuration
+
+#class Dev(Configuration):
+#   DEBUG = True
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -9,7 +14,7 @@ SECRET_KEY = 'rha7*we-io_dbhnf$k)%wum_i=-fct9+n^j+@5j9p*$z01lzj1'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -55,24 +60,24 @@ TEMPLATES = [
 WSGI_APPLICATION = 'WhiteElephant.wsgi.application'
 
 # Database
-DATABASES = {
-   'default': {
-       'ENGINE': 'django.db.backends.sqlite3',
-       'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-   }
-}
+#DATABASES = {
+#   'default': {
+#       'ENGINE': 'django.db.backends.sqlite3',
+#       'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#   }
+#}
 
-# DATABASES = {
-#     'default': {
-#         #'ENGINE': 'django.db.backends.mysql',
-#         'ENGINE': 'mysql.connector.django',
-#         'NAME': 'album_website',
-#         'USER': 'root',
-#         'PASSWORD': 'root',
-#         'HOST': 'ec2-35-161-82-43.us-west-2.compute.amazonaws.com',
-#        'PORT': '3306',
-#     }
-# }
+DATABASES = {
+     'default': {
+         'ENGINE': 'django.db.backends.mysql',
+         # 'ENGINE': 'mysql.connector.django',
+         'NAME': 'mydb',
+         'USER': 'root',
+         'PASSWORD': 'root',
+         'HOST': 'ec2-35-161-82-43.us-west-2.compute.amazonaws.com',
+        'PORT': '3306',
+     }
+ }
 
 
 
@@ -100,7 +105,8 @@ USE_L10N = True
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
-STATIC_URL = '/static/'
+STATIC_ROOT = '/opt/WhiteElephant/WhiteElephant/game/static/'
+STATIC_URL = '/game/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'

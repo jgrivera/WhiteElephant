@@ -1,1 +1,6 @@
 .idea
+__pycache__/
+*.py[cod]
+*$py.class
+WhiteElephant/settings.py
+WhiteElephant/whiteelephant.wsgi
