@@ -7,7 +7,7 @@
     <!-- Albums -->
     <div class="row">
         <div class="col-sm-12">
-            <h3>{{ user.username }}'s Albums</h3>
+            <h3>{{ user.username }}'s Games</h3>
         </div>
         {% if albums %}
             {% for album in albums %}
@@ -47,7 +47,7 @@
                 <br>
                 <a href="{% url 'game:create_album' %}">
                     <button type="button" class="btn btn-success">
-                        <span class="glyphicon glyphicon-plus"></span>&nbsp; Add an Album
+                        <span class="glyphicon glyphicon-plus"></span>&nbsp; Add a Game
                     </button>
                 </a>
             </div>
