@@ -35,9 +35,14 @@
                             <div class="col-sm-offset-2 col-sm-10">
                                 <button type="submit" class="btn btn-success">Submit</button>
                             </div>
+
                         </div>
                     </form>
                 </div>
+                <div>
+                {% load socialaccount %}
+                    <a href="{% provider_login_url "facebook" method="oauth2" %}">Facebook Login</a>
+                    </div>
                 <div class="panel-footer">
                     Don't have an account? <a href="{% url 'game:register' %}">Click here</a> to register.
                 </div>
