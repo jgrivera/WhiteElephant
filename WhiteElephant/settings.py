@@ -1,6 +1,6 @@
 import os
 
-from configurations import Configuration
+#from configurations import Configuration
 
 #class Dev(Configuration):
 #   DEBUG = True
@@ -26,8 +26,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.amazon',
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.google',
 ]
-
+LOGIN_REDIRECT_URL = ('/')
+SITE_ID = 4
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -52,12 +60,13 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request',
             ],
         },
     },
 ]
 
-WSGI_APPLICATION = 'WhiteElephant.wsgi.application'
+#WSGI_APPLICATION = 'WhiteElephant.wsgi.application'
 
 # Database
 #DATABASES = {
@@ -69,8 +78,8 @@ WSGI_APPLICATION = 'WhiteElephant.wsgi.application'
 
 DATABASES = {
      'default': {
-         'ENGINE': 'django.db.backends.mysql',
-         # 'ENGINE': 'mysql.connector.django',
+         #'ENGINE': 'django.db.backends.mysql',
+          'ENGINE': 'mysql.connector.django',
          'NAME': 'mydb',
          'USER': 'root',
          'PASSWORD': 'root',
@@ -79,7 +88,19 @@ DATABASES = {
      }
  }
 
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
 
+SOCIALACCOUNT_PROVIDERS = \
+    {'facebook':
+         {'SCOPE': ['email'],
+          'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+          'METHOD': 'oauth2',
+          'LOCALE_FUNC': 'en-US'}}
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
@@ -102,7 +123,7 @@ LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_L10N = True
-USE_TZ = True
+USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 STATIC_ROOT = '/opt/WhiteElephant/WhiteElephant/game/static/'
