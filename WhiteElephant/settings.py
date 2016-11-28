@@ -35,7 +35,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
 ]
 LOGIN_REDIRECT_URL = ('/')
-SITE_ID = 4
+SITE_ID = 2
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
