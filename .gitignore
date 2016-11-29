@@ -4,5 +4,5 @@ __pycache__/
 *.pyc
 *$py.class
 media/
-WhiteElephant/settings.py
-WhiteElephant/whiteelephant.wsgi
+settings.py
+whiteelephant.wsgi
