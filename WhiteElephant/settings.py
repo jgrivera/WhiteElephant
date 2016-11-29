@@ -36,10 +36,6 @@ INSTALLED_APPS = [
 ]
 
 LOGIN_REDIRECT_URL = ('/')
-<<<<<<< HEAD
-=======
-
->>>>>>> 43f4ebe429783b2a2f0c6106daddc850ab0fc112
 SITE_ID = 2
 
 MIDDLEWARE_CLASSES = [
