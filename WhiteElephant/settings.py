@@ -68,7 +68,7 @@ TEMPLATES = [
     },
 ]
 
-#WSGI_APPLICATION = 'WhiteElephant.wsgi.application'
+WSGI_APPLICATION = 'WhiteElephant.wsgi.application'
 
 # Database
 #DATABASES = {
