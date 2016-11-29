@@ -36,7 +36,7 @@ INSTALLED_APPS = [
 ]
 
 LOGIN_REDIRECT_URL = ('/')
-SITE_ID = 5
+SITE_ID = 2
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
@@ -68,7 +68,7 @@ TEMPLATES = [
     },
 ]
 
-#WSGI_APPLICATION = 'WhiteElephant.wsgi.application'
+WSGI_APPLICATION = 'WhiteElephant.wsgi.application'
 
 # Database
 #DATABASES = {
@@ -80,8 +80,8 @@ TEMPLATES = [
 
 DATABASES = {
      'default': {
-         #'ENGINE': 'django.db.backends.mysql',
-         'ENGINE': 'mysql.connector.django',
+         'ENGINE': 'django.db.backends.mysql',
+         #'ENGINE': 'mysql.connector.django',
          'NAME': 'mydb',
          'USER': 'root',
          'PASSWORD': 'root',
