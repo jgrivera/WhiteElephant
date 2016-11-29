@@ -34,8 +34,12 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.google',
 ]
-LOGIN_REDIRECT_URL = ('/')
 
+LOGIN_REDIRECT_URL = ('/')
+<<<<<<< HEAD
+=======
+
+>>>>>>> 43f4ebe429783b2a2f0c6106daddc850ab0fc112
 SITE_ID = 2
 
 MIDDLEWARE_CLASSES = [
@@ -68,7 +72,7 @@ TEMPLATES = [
     },
 ]
 
-#WSGI_APPLICATION = 'WhiteElephant.wsgi.application'
+WSGI_APPLICATION = 'WhiteElephant.wsgi.application'
 
 # Database
 #DATABASES = {
@@ -80,8 +84,8 @@ TEMPLATES = [
 
 DATABASES = {
      'default': {
-         #'ENGINE': 'django.db.backends.mysql',
-          'ENGINE': 'mysql.connector.django',
+         'ENGINE': 'django.db.backends.mysql',
+         # 'ENGINE': 'mysql.connector.django',
          'NAME': 'mydb',
          'USER': 'root',
          'PASSWORD': 'root',
@@ -128,7 +132,7 @@ USE_L10N = True
 USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
-STATIC_ROOT = '/opt/WhiteElephant/WhiteElephant/game/static/'
+STATIC_ROOT = '/opt/WhiteElephant/WhiteElephant/game/static'
 STATIC_URL = '/game/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
