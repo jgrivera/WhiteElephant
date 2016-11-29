@@ -1,6 +1,9 @@
+from __future__ import unicode_literals
 from django.contrib.auth.models import Permission, User
+
 from django.db import models
 
+import allauth.app_settings
 
 class Album(models.Model):
     user = models.ForeignKey(User, default=1)
@@ -24,15 +27,16 @@ class Song(models.Model):
         return self.song_title
 #  Models for WhiteElephant
 
+
+
 class Addresses(models.Model):
     address_1 = models.CharField(max_length=45)
     address_2 = models.CharField(max_length=45, blank=True, null=True)
-    user_id = models.BigIntegerField()
+    user_id = models.ForeignKey(allauth.app_settings.USER_MODEL, on_delete=models.CASCADE)
     state_id = models.IntegerField()
     country_id = models.IntegerField()
     city_id = models.IntegerField()
     zip_id = models.IntegerField()
-    zip_id2 = models.IntegerField()
 
     class Meta:
         managed = False
@@ -47,20 +51,22 @@ class Affiliates(models.Model):
         db_table = 'Affiliates'
 
 
-class Amazon(models.Model):
-    username = models.CharField(max_length=45)
-    password = models.CharField(max_length=45)
-    apikey = models.CharField(max_length=45)
+class Countries(models.Model):
+    iso = models.CharField(max_length=2)
+    name = models.CharField(max_length=80)
+    nicename = models.CharField(max_length=80)
+    iso3 = models.CharField(max_length=3, blank=True, null=True)
+    numcode = models.SmallIntegerField(blank=True, null=True)
+    phonecode = models.IntegerField()
 
     class Meta:
         managed = False
-        db_table = 'Amazon'
+        db_table = 'Countries'
 
 
 class Emails(models.Model):
-    id = models.BigIntegerField(primary_key=True)
-    email = models.CharField(max_length=100, blank=True, null=True)
-    user = models.ForeignKey('Users', models.DO_NOTHING)
+    email = models.CharField(max_length=100)
+    user_id = models.ForeignKey(allauth.app_settings.USER_MODEL, on_delete=models.CASCADE)
     primary = models.IntegerField()
     created = models.DateTimeField()
 
@@ -69,25 +75,15 @@ class Emails(models.Model):
         db_table = 'Emails'
 
 
-class Facebook(models.Model):
-    username = models.CharField(max_length=45)
-    password = models.CharField(max_length=45)
-    apikey = models.CharField(max_length=45)
-
-    class Meta:
-        managed = False
-        db_table = 'Facebook'
-
-
 class Gamegifts(models.Model):
     id = models.BigIntegerField(primary_key=True)
-    game = models.ForeignKey('Games', models.DO_NOTHING)
-    gift = models.ForeignKey('Gifts', models.DO_NOTHING)
-    times_stolen = models.IntegerField()
-    current_user = models.ForeignKey('Users', models.DO_NOTHING, related_name = 'current_user_id')
-    purchased_user = models.ForeignKey('Users', models.DO_NOTHING, related_name = 'purchased_user_id')
-    selected_user = models.ForeignKey('Users', models.DO_NOTHING, related_name = 'selected_user_id')
-    gift_type = models.ForeignKey('Gifttypes', models.DO_NOTHING)
+    game_id = models.ForeignKey('Games', models.DO_NOTHING)
+    gift_id = models.ForeignKey('Gifts', models.DO_NOTHING)
+    times_stolen = models.IntegerField(default=0)
+    current_user_id = models.ForeignKey(allauth.app_settings.USER_MODEL, on_delete=models.DO_NOTHING, related_name='current_user_id')
+    purchased_user_id = models.ForeignKey(allauth.app_settings.USER_MODEL, on_delete=models.DO_NOTHING, related_name='purchased_user_id')
+    selected_user_id = models.ForeignKey(allauth.app_settings.USER_MODEL, on_delete=models.DO_NOTHING,related_name='selected_user_id')
+    gift_type_id = models.ForeignKey('Gifttypes', models.DO_NOTHING)
 
     class Meta:
         managed = False
@@ -98,8 +94,9 @@ class Games(models.Model):
     id = models.BigIntegerField(primary_key=True)
     name = models.CharField(max_length=45)
     starttime = models.DateTimeField()
-    status = models.ForeignKey('Status', models.DO_NOTHING, db_column='status')
-    created_by = models.ForeignKey('Users', models.DO_NOTHING, db_column='created_by')
+    status_id = models.ForeignKey('Status', models.DO_NOTHING)
+    created_by_id = models.ForeignKey(allauth.app_settings.USER_MODEL,
+                             on_delete=models.DO_NOTHING)
     created = models.DateTimeField()
 
     class Meta:
@@ -109,9 +106,9 @@ class Games(models.Model):
 
 class Gifttrails(models.Model):
     id = models.BigIntegerField(primary_key=True)
-    giftid = models.ForeignKey('Gifts', models.DO_NOTHING, db_column='giftid')
-    user = models.ForeignKey('Users', models.DO_NOTHING)
-    game = models.ForeignKey(Games, models.DO_NOTHING)
+    gift_id = models.ForeignKey('Gifts', models.DO_NOTHING)
+    user_id = models.ForeignKey(allauth.app_settings.USER_MODEL,  on_delete=models.DO_NOTHING)
+    game_id = models.ForeignKey(Games, models.DO_NOTHING)
     created = models.DateTimeField()
 
     class Meta:
@@ -120,7 +117,6 @@ class Gifttrails(models.Model):
 
 
 class Gifttypes(models.Model):
-    id = models.IntegerField(primary_key=True)
     type = models.CharField(max_length=45)
 
     class Meta:
@@ -131,9 +127,9 @@ class Gifttypes(models.Model):
 class Gifts(models.Model):
     id = models.BigIntegerField(primary_key=True)
     name = models.CharField(max_length=45)
-    price = models.ForeignKey('Prices', models.DO_NOTHING)
-    affiliate = models.ForeignKey(Affiliates, models.DO_NOTHING)
-    type = models.ForeignKey(Gifttypes, models.DO_NOTHING)
+    price_id = models.ForeignKey('Prices', models.DO_NOTHING)
+    affiliate_id = models.ForeignKey(Affiliates, models.DO_NOTHING)
+    type_id = models.ForeignKey(Gifttypes, models.DO_NOTHING)
     created = models.DateTimeField()
 
     class Meta:
@@ -151,16 +147,6 @@ class Github(models.Model):
         db_table = 'GitHub'
 
 
-class Google(models.Model):
-    username = models.CharField(max_length=45)
-    password = models.CharField(max_length=45)
-    apikey = models.CharField(max_length=45)
-
-    class Meta:
-        managed = False
-        db_table = 'Google'
-
-
 class Integrations(models.Model):
     name = models.CharField(max_length=45)
     table_name = models.CharField(max_length=45)
@@ -169,21 +155,6 @@ class Integrations(models.Model):
     class Meta:
         managed = False
         db_table = 'Integrations'
-
-
-class Logins(models.Model):
-    id = models.BigIntegerField(primary_key=True)
-    email = models.CharField(max_length=45, blank=True, null=True)
-    password = models.CharField(max_length=40, blank=True, null=True)
-    attempt = models.IntegerField()
-    status = models.ForeignKey('Status', models.DO_NOTHING)
-    datetime = models.DateTimeField()
-    ipaddress = models.CharField(max_length=15)
-    useragent = models.CharField(max_length=255, blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'Logins'
 
 
 class Messages(models.Model):
@@ -213,10 +184,10 @@ class Notificationtypes(models.Model):
 
 
 class Notifications(models.Model):
-    type = models.ForeignKey(Notificationtypes, models.DO_NOTHING)
-    from_user = models.ForeignKey('Users', models.DO_NOTHING, related_name = 'from_user_id')
-    to_user = models.ForeignKey('Users', models.DO_NOTHING, related_name = 'to_user_id')
-    status = models.ForeignKey('Status', models.DO_NOTHING)
+    type_id = models.ForeignKey(Notificationtypes, models.DO_NOTHING)
+    from_user_id = models.ForeignKey(allauth.app_settings.USER_MODEL, on_delete=models.CASCADE, related_name="from_user_id")
+    to_user_id = models.ForeignKey(allauth.app_settings.USER_MODEL, on_delete=models.CASCADE, related_name="to_user_id")
+    status_id = models.ForeignKey('Status', models.DO_NOTHING)
     message = models.ForeignKey(Messages, models.DO_NOTHING)
     created = models.DateTimeField()
 
@@ -225,32 +196,9 @@ class Notifications(models.Model):
         db_table = 'Notifications'
 
 
-class Passwords(models.Model):
-    user = models.ForeignKey('Users', models.DO_NOTHING)
-    password = models.CharField(max_length=40)
-    previous_password = models.CharField(max_length=40)
-    last_changed = models.DateTimeField()
-    created = models.DateTimeField(blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'Passwords'
-
-
-class Paypal(models.Model):
-    username = models.CharField(max_length=45)
-    password = models.CharField(max_length=45)
-    apikey = models.CharField(max_length=45)
-
-    class Meta:
-        managed = False
-        db_table = 'Paypal'
-
-
 class Phonenumbers(models.Model):
-    id = models.BigIntegerField(primary_key=True)
-    phone_number = models.CharField(max_length=13)
-    user = models.ForeignKey('Users', models.DO_NOTHING)
+    phone_number = models.CharField(unique=True, max_length=13)
+    user_id = models.ForeignKey(allauth.app_settings.USER_MODEL,on_delete=models.CASCADE)
     created = models.DateTimeField()
 
     class Meta:
@@ -260,13 +208,13 @@ class Phonenumbers(models.Model):
 
 class Players(models.Model):
     id = models.BigIntegerField(primary_key=True)
-    clock = models.IntegerField()
-    user = models.ForeignKey('Users', models.DO_NOTHING)
-    game = models.ForeignKey(Games, models.DO_NOTHING)
-    status = models.ForeignKey('Status', models.DO_NOTHING)
-    gift = models.ForeignKey(Gifts, models.DO_NOTHING)
+    clock = models.DateTimeField()
+    user_id = models.ForeignKey(allauth.app_settings.USER_MODEL, on_delete=models.DO_NOTHING, related_name="user_id")
+    game_id = models.ForeignKey(allauth.app_settings.USER_MODEL, on_delete=models.DO_NOTHING, related_name="game_id")
+    status_id = models.ForeignKey('Status', models.DO_NOTHING)
+    gift_id = models.ForeignKey(Gifts, models.DO_NOTHING)
     turn_number = models.IntegerField()
-    role = models.ForeignKey('Roles', models.DO_NOTHING)
+    role_id = models.ForeignKey('Roles', models.DO_NOTHING)
 
     class Meta:
         managed = False
@@ -274,10 +222,9 @@ class Players(models.Model):
 
 
 class Playersmoods(models.Model):
-    id = models.IntegerField(primary_key=True)
-    game = models.ForeignKey(Games, models.DO_NOTHING)
-    player = models.ForeignKey(Players, models.DO_NOTHING, blank=True, null=True)
-    mood = models.ForeignKey(Moods, models.DO_NOTHING, blank=True, null=True)
+    game_id = models.BigIntegerField()
+    player_id = models.ForeignKey(allauth.app_settings.USER_MODEL,  on_delete=models.CASCADE)
+    mood_id = models.IntegerField(blank=True, null=True)
     created = models.DateTimeField(blank=True, null=True)
 
     class Meta:
@@ -286,7 +233,6 @@ class Playersmoods(models.Model):
 
 
 class Prices(models.Model):
-    id = models.IntegerField(primary_key=True)
     price = models.DecimalField(max_digits=10, decimal_places=5)
 
     class Meta:
@@ -303,7 +249,7 @@ class Roles(models.Model):
 
 
 class Status(models.Model):
-    status = models.CharField(max_length=20)
+    status = models.CharField(unique=True, max_length=20)
 
     class Meta:
         managed = False
@@ -321,16 +267,6 @@ class Twillio(models.Model):
         db_table = 'Twillio'
 
 
-class Twitter(models.Model):
-    username = models.CharField(max_length=45)
-    password = models.CharField(max_length=45)
-    apikey = models.CharField(max_length=45)
-
-    class Meta:
-        managed = False
-        db_table = 'Twitter'
-
-
 class Usps(models.Model):
     username = models.CharField(max_length=12)
     password = models.CharField(max_length=12)
@@ -340,16 +276,191 @@ class Usps(models.Model):
         db_table = 'USPS'
 
 
-class Users(models.Model):
-    id = models.BigIntegerField(primary_key=True)
-    first_name = models.CharField(max_length=45, blank=True, null=True)
-    last_name = models.CharField(max_length=45, blank=True, null=True)
-    nick_name = models.CharField(max_length=45, blank=True, null=True)
-    profile_image = models.CharField(max_length=45)
-    role = models.ForeignKey(Roles, models.DO_NOTHING)
-    created = models.DateTimeField()
+class AccountEmailaddress(models.Model):
+    email = models.CharField(unique=True, max_length=254)
+    verified = models.IntegerField()
+    primary = models.IntegerField()
+    user = models.ForeignKey('AuthUser', models.DO_NOTHING)
 
     class Meta:
         managed = False
-        db_table = 'Users'
+        db_table = 'account_emailaddress'
 
+
+class AccountEmailconfirmation(models.Model):
+    created = models.DateTimeField()
+    sent = models.DateTimeField(blank=True, null=True)
+    key = models.CharField(unique=True, max_length=64)
+    email_address = models.ForeignKey(AccountEmailaddress, models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'account_emailconfirmation'
+
+
+class AuthGroup(models.Model):
+    name = models.CharField(unique=True, max_length=80)
+
+    class Meta:
+        managed = False
+        db_table = 'auth_group'
+
+
+class AuthGroupPermissions(models.Model):
+    group = models.ForeignKey(AuthGroup, models.DO_NOTHING)
+    permission = models.ForeignKey('AuthPermission', models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'auth_group_permissions'
+        unique_together = (('group', 'permission'),)
+
+
+class AuthPermission(models.Model):
+    name = models.CharField(max_length=255)
+    content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING)
+    codename = models.CharField(max_length=100)
+
+    class Meta:
+        managed = False
+        db_table = 'auth_permission'
+        unique_together = (('content_type', 'codename'),)
+
+
+class AuthUser(models.Model):
+    password = models.CharField(max_length=128)
+    last_login = models.CharField(max_length=128, blank=True, null=True)
+    is_superuser = models.IntegerField()
+    username = models.CharField(unique=True, max_length=150)
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
+    email = models.CharField(max_length=254)
+    is_staff = models.IntegerField()
+    is_active = models.IntegerField()
+    date_joined = models.DateTimeField()
+
+    class Meta:
+        managed = False
+        db_table = 'auth_user'
+
+
+class AuthUserGroups(models.Model):
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+    group = models.ForeignKey(AuthGroup, models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'auth_user_groups'
+        unique_together = (('user', 'group'),)
+
+
+class AuthUserUserPermissions(models.Model):
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+    permission = models.ForeignKey(AuthPermission, models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'auth_user_user_permissions'
+        unique_together = (('user', 'permission'),)
+
+
+class DjangoAdminLog(models.Model):
+    action_time = models.CharField(max_length=255)
+    object_id = models.TextField(blank=True, null=True)
+    object_repr = models.CharField(max_length=200)
+    action_flag = models.SmallIntegerField()
+    change_message = models.TextField()
+    content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING, blank=True, null=True)
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'django_admin_log'
+
+
+class DjangoContentType(models.Model):
+    app_label = models.CharField(max_length=100)
+    model = models.CharField(max_length=100)
+
+    class Meta:
+        managed = False
+        db_table = 'django_content_type'
+        unique_together = (('app_label', 'model'),)
+
+
+class DjangoMigrations(models.Model):
+    app = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)
+    applied = models.CharField(max_length=255)
+
+    class Meta:
+        managed = False
+        db_table = 'django_migrations'
+
+
+class DjangoSession(models.Model):
+    session_key = models.CharField(primary_key=True, max_length=40)
+    session_data = models.TextField()
+    expire_date = models.DateTimeField()
+
+    class Meta:
+        managed = False
+        db_table = 'django_session'
+
+
+class DjangoSite(models.Model):
+    domain = models.CharField(unique=True, max_length=100)
+    name = models.CharField(max_length=50)
+
+    class Meta:
+        managed = False
+        db_table = 'django_site'
+
+
+class SocialaccountSocialaccount(models.Model):
+    provider = models.CharField(max_length=30)
+    uid = models.CharField(max_length=191)
+    last_login = models.DateTimeField()
+    date_joined = models.DateTimeField()
+    extra_data = models.TextField()
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'socialaccount_socialaccount'
+        unique_together = (('provider', 'uid'),)
+
+
+class SocialaccountSocialapp(models.Model):
+    provider = models.CharField(max_length=30)
+    name = models.CharField(max_length=40)
+    client_id = models.CharField(max_length=191)
+    secret = models.CharField(max_length=191)
+    key = models.CharField(max_length=191)
+
+    class Meta:
+        managed = False
+        db_table = 'socialaccount_socialapp'
+
+
+class SocialaccountSocialappSites(models.Model):
+    socialapp = models.ForeignKey(SocialaccountSocialapp, models.DO_NOTHING)
+    site = models.ForeignKey(DjangoSite, models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'socialaccount_socialapp_sites'
+        unique_together = (('socialapp', 'site'),)
+
+
+class SocialaccountSocialtoken(models.Model):
+    token = models.TextField()
+    token_secret = models.TextField()
+    expires_at = models.DateTimeField(blank=True, null=True)
+    account = models.ForeignKey(SocialaccountSocialaccount, models.DO_NOTHING)
+    app = models.ForeignKey(SocialaccountSocialapp, models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'socialaccount_socialtoken'
+        unique_together = (('app', 'account'),)
