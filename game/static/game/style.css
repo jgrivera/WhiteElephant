@@ -117,3 +117,9 @@ ul.errorlist > li {
     background-color: #8e44ad;
   }
 }
+
+.img-responsive {
+  display: inline-block;
+  justify-content: space-between;
+}
+

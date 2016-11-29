@@ -40,9 +40,15 @@
                     </form>
                 </div>
                 <div>
-                {% load socialaccount %}
-                    <a href="{% provider_login_url "facebook" method="oauth2" %}">Facebook Login</a>
+                    <div class="panel panel-info">
+                    <div class="panel-heading"><strong>Login with</strong></div>
+                    <div class="panel-body">
+                        {% load socialaccount %}
+                            <a href="{% provider_login_url "facebook" method="oauth2" %}"><img src="/media/facebook_word.png" class="img-responsive" style="width:150px;height:50px;"></a>
+                            <a href="{% provider_login_url "google" method="oauth2" %}"><img src="/media/google_word.png" class="img-responsive" style="width:150px;height:50px;"></a>
                     </div>
+                </div>
+
                 <div class="panel-footer">
                     Don't have an account? <a href="{% url 'game:register' %}">Click here</a> to register.
                 </div>
