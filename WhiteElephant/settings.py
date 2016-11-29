@@ -36,7 +36,7 @@ INSTALLED_APPS = [
 ]
 
 LOGIN_REDIRECT_URL = ('/')
-SITE_ID = 2
+SITE_ID = 5
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
