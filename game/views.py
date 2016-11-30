@@ -9,6 +9,14 @@ from .models import Album, Song
 AUDIO_FILE_TYPES = ['wav', 'mp3', 'ogg']
 IMAGE_FILE_TYPES = ['png', 'jpg', 'jpeg']
 
+def profile(request):
+    if not request.user.is_authenticated():
+        return render(request, 'game/login.html')
+    else:
+        user = request.user
+        userprofile = get_object_or_404(Album, pk=request.user)
+        return render(request, 'game/detail.html', {'album': userprofile, 'user': uid})
+
 
 def create_album(request):
     if not request.user.is_authenticated():
