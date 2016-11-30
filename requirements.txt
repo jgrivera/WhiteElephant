@@ -20,7 +20,6 @@ python3-openid==3.0.10
 pytz==2016.7
 requests==2.12.1
 requests-oauthlib==0.7.0
-setuptools==29.0.0
 six==1.10.0
 Twisted==16.6.0
 virtualenv==12.0.7

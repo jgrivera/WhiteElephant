@@ -14,7 +14,7 @@ def profile(request):
         return render(request, 'game/login.html')
     else:
         user = request.user
-        userprofile = get_object_or_404(Album, pk=request.user.)
+        userprofile = get_object_or_404(Album, pk=request.user)
         return render(request, 'game/detail.html', {'album': userprofile, 'user': uid})
 
 
