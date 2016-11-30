@@ -1,31 +1,31 @@
-![](http://i.imgur.com/YiFZyuW.png)
+## Synopsis
 
-# What is Viberr?
+At the top of the file there should be a short introduction and/ or overview that explains **what** the project is. This description should match descriptions added for package managers (Gemspec, package.json, etc.)
 
-Viberr is an application that let's you upload, store, and play all of your music from the cloud. You can now manage and listen to your music from any device, anywhere in the world. 
+## Code Example
 
-![](http://i.imgur.com/9Ix2CbR.png)
+Show what the library does as concisely as possible, developers should be able to figure out **how** your project solves their problem by looking at the code example. Make sure the API you are showing off is obvious, and that your code is short and concise.
 
-## How does it work?
+## Motivation
 
-To get started, first create a new album. When adding an album cover logo, it's best to have a resolution of at least 512x512 and to use common image formats such as JPG, JPEG, or PNG.
+A short description of the motivation behind the creation and maintenance of the project. This should explain **why** the project exists.
 
-![](http://i.imgur.com/RsGZfUq.png)
+## Installation
 
-## Adding Songs
+Provide code examples and explanations of how to get the project.
 
-After an album is created you will then be able to add/upload songs. Currently supported file types are WAV, MP3, and OGG.
+## API Reference
 
-![](http://i.imgur.com/gTNrnV6.png)
+Depending on the size of the project, if it is small and simple enough the reference docs can be added to the README. For medium size to larger projects it is important to at least provide a link to where the API reference docs live.
 
-## My Songs
+## Tests
 
-Once songs are added to an album you are then able to play, favorite, and delete them.
+Describe and show how to run the tests with code examples.
 
-![](http://i.imgur.com/ggcgbz0.png)
+## Contributors
 
-## Searching
+Let people know how they can dive into the project, include important links to things like issue trackers, irc, twitter accounts if applicable.
 
-You can also search for music using the search feature at the top of every page. Any relevant albums will appear at the top of the results page, and the results for individual songs will appear below. 
+## License
 
-![](http://i.imgur.com/kfkFA3N.png)
+A short snippet describing the license (MIT, Apache, etc.)
