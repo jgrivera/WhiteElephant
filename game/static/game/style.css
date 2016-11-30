@@ -123,3 +123,6 @@ ul.errorlist > li {
   justify-content: space-between;
 }
 
+.white, .white a {
+  color: #fff;
+}

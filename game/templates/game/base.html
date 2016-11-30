@@ -47,18 +47,32 @@
             </form>
 
             <div class="nav navbar-nav navbar-right">
-                <li>
-                    <a href="{% url 'game:create_album' %}">
-                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp; New Game
-                    </a>
-                </li>
-                <li>
-                    <a href="{% url 'game:logout_user' %}">
-                        <span class="glyphicon glyphicon-off" aria-hidden="true"></span>&nbsp; Logout
-                    </a>
-                </li>
+{#                <li>#}
+{#                    <a href="{% url 'game:create_album' %}">#}
+{#                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp; New Game#}
+{#                    </a>#}
+{#                </li>#}
+{#                <li>#}
+
+
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Welcome {% block user %}{% endblock %}
+                            <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                              <li><span class="glyphicon glyphicon-user white" aria-hidden="true"><a href="#"> Profile</a></span></li>
+                              <li><span class="glyphicon glyphicon-off white" aria-hidden="true"><a href="{% url 'game:logout_user' %}"> Logout</a></span></li>
+                            </ul>
+                        </li>
+
+
+
+{#                    <a href="{% url 'game:logout_user' %}">#}
+{#                        <span class="glyphicon glyphicon-off" aria-hidden="true"></span>&nbsp; Logout#}
+{#                    </a>#}
+{#                </li>#}
             <div/>
             </ul>
+
         </div>
 
     </div>
