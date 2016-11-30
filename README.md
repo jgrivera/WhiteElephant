@@ -1,7 +1,6 @@
 # White Elephant
 ```
 Game to play White Elephant Online with Friends
-
 ```
 
 ## Contributing
