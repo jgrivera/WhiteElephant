@@ -6,4 +6,4 @@
 ## Credits
     Marina Stotz
 ## License
-    [WhiteElephant Terms and Conditions of Use](http://http://we.yogishouse.com/game/policyandagreement/)
+    [WhiteElephant Terms and Conditions of Use](http://we.yogishouse.com/game/policyandagreement/)
