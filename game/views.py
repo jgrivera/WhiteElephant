@@ -161,6 +161,9 @@ def logout_user(request):
     }
     return render(request, 'game/login.html', context)
 
+def policyandagreement(request):
+    return render(request, 'game/policyandagreement.html')
+
 
 def login_user(request):
     if request.method == "POST":

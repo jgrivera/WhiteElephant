@@ -3,7 +3,6 @@ __pycache__/
 *.py[cod]
 *.pyc
 *$py.class
-settings.py
-whiteelephant.wsgi
 media/
-
+migrations/
+local_settings.py
