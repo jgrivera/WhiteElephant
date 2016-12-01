@@ -4,17 +4,16 @@
 
 {% block body %}
 <div class="albums-container container-fluid">
-
-    <!-- Albums -->
-    <div class="row">
-        <div class="col-sm-12">
+    <div class="col-sm-12">
                 <br>
                 <a href="{% url 'game:create_album' %}">
                     <button type="button" class="btn btn-success">
                         <span class="glyphicon glyphicon-plus"></span>&nbsp; Start New Game
                     </button>
                 </a>
-        </div>
+    </div>
+    <!-- Albums -->
+
         <div class="col-sm-12">
             <h3>{{ user.username }}'s Games</h3>
         </div>

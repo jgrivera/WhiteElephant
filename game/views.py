@@ -202,7 +202,7 @@ def register(request):
     return render(request, 'game/register.html', context)
 
 
-def songs(request, filter_by):
+def friends(request, filter_by):
     if not request.user.is_authenticated():
         return render(request, 'game/login.html')
     else:
@@ -216,7 +216,7 @@ def songs(request, filter_by):
                 users_songs = users_songs.filter(is_favorite=True)
         except Album.DoesNotExist:
             users_songs = []
-        return render(request, 'game/songs.html', {
+        return render(request, 'game/friends.html', {
             'song_list': users_songs,
             'filter_by': filter_by,
         })

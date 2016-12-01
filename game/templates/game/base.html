@@ -41,7 +41,7 @@
         <div class="collapse navbar-collapse" id="topNavBar">
             <ul class="nav nav-pills">
                 <li class="{% block albums_active %}{% endblock %}"><a href="{% url 'game:index' %}"><span class="glyphicon glyphicon-gift" aria-hidden="true"></span>&nbsp; Games</a></li>
-                <li class="{% block songs_active %}{% endblock %}"><a href="{% url 'game:songs' 'all' %}"><span class="glyphicon glyphicon-user-add" aria-hidden="true"></span>&nbsp; Friends</a></li>
+                <li class="{% block songs_active %}{% endblock %}"><a href="{% url 'game:friends' 'all' %}"><span class="glyphicon glyphicon-user-add" aria-hidden="true"></span>&nbsp; Friends</a></li>
 
 {#            <form class="navbar-form navbar-left" role="search" method="get" action="{% url 'game:index' %}">#}
 {#                <div class="form-group">#}

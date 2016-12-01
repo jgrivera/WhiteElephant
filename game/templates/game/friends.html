@@ -5,12 +5,24 @@
 
 {% block body %}
 <div class="container-fluid songs-container">
-
+    <div class="col-sm-12">
+                <br>
+                <a href="{% url 'game:create_album' %}">
+                    <button type="button" class="btn btn-success">
+                        <span class="glyphicon glyphicon-plus"></span>&nbsp; Add Friends
+                    </button>
+                </a>
+    </div>
+    <div class="col-sm-12">
+                <br>
+    </div>
     <div class="row">
+
+
         <div class="col-sm-12">
             <ul class="nav nav-pills" style="margin-bottom: 10px;">
-                <li role="presentation" {% if filter_by == 'all' %}class="active"{% endif %}><a href="{% url 'game:songs' 'all' %}">View All</a></li>
-                <li role="presentation" {% if filter_by == 'favorites' %}class="active"{% endif %}><a href="{% url 'game:songs' 'favorites' %}">Favorites</a></li>
+                <li role="presentation" {% if filter_by == 'all' %}class="active"{% endif %}><a href="{% url 'game:friends' 'all' %}">View All</a></li>
+                <li role="presentation" {% if filter_by == 'favorites' %}class="active"{% endif %}><a href="{% url 'game:friends' 'favorites' %}">Favorites</a></li>
             </ul>
         </div>
     </div>
@@ -24,10 +36,15 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>Song Title</th>
-                                <th>Artist</th>
-                                <th>Audio File</th>
-                                <th>Album</th>
+{#                                <th>Song Title</th>#}
+{#                                <th>Artist</th>#}
+{#                                <th>Audio File</th>#}
+{#                                <th>Album</th>#}
+{#                                <th>Favorite</th>#}
+                                <th>Name</th>
+                                <th>email</th>
+                                <th>Status</th>
+                                <th>Actions</th>
                                 <th>Favorite</th>
                             </tr>
                         </thead>
