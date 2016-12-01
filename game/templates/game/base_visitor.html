@@ -24,14 +24,6 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="{% url 'game:index' %}">White Elephant</a>
-
-        <!-- Items -->
-        <class="collapse navbar-collapse" id="topNavBar">
-            <ul class="nav nav-tabs">
-                <li class="{% block login_active %}{% endblock %}"><a href="{% url 'game:login_user' %}">Log In</a></li>
-            </ul>
-        </>
-
     </div>
 </nav>
 {% block body %}
