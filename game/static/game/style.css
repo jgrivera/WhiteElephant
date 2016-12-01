@@ -1,7 +1,14 @@
+h3 {
+    background-color: #337ab7;
+}
+
 body {
     background: white url("images/background.png");
 }
 
+.row {
+  padding-left: 18px;
+}
 ul.errorlist {
     padding-left: 0;
 }
