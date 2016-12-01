@@ -1,6 +1,7 @@
 {% extends 'game/base.html' %}
 {% block title %}{{ album }}{% endblock %}
 {% block albums_active %}active{% endblock %}
+{% block user %}{{ user.username }} {% endblock %}
 
 {% block body %}
 <div class="container-fluid songs-container">
