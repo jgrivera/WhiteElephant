@@ -1,8 +1,8 @@
 from django.contrib import admin
-from .models import Album, Song, Addresses, Affiliates, Countries, Emails, Gamegifts, Games, Gifttrails, Gifttypes, Gifts, Github, Integrations, Messages, Moods, Notificationtypes, Notifications, Phonenumbers, Players, Playersmoods, Prices, Roles, Status, Twillio, Usps
+from .models import Game, Song, Addresses, Affiliates, Countries, Emails, Gamegifts, Games, Gifttrails, Gifttypes, Gifts, Github, Integrations, Messages, Moods, Notificationtypes, Notifications, Phonenumbers, Players, Playersmoods, Prices, Roles, Status, Twillio, Usps
 from django.contrib.sites.models import Site
 
-admin.site.register(Album)
+admin.site.register(Game)
 admin.site.register(Song)
 admin.site.register(Addresses)
 admin.site.register(Affiliates)

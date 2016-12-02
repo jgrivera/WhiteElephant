@@ -5,24 +5,24 @@ from django.db import models
 
 import allauth.app_settings
 
-class Album(models.Model):
+class Game(models.Model):
     user = models.ForeignKey(User, default=1)
-    artist = models.CharField(max_length=250)
-    album_title = models.CharField(max_length=500)
+    #artist = models.CharField(max_length=250)
+    #album_title = models.CharField(max_length=500)
     game_name = models.CharField(max_length=500)
     game_start_time = models.CharField(max_length=500)
     gift_price = models.CharField(max_length=500)
     number_of_joke_gifts = models.CharField(max_length=500)
     genre = models.CharField(max_length=100)
-    album_logo = models.FileField()
+    # album_logo = models.FileField()
     is_favorite = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.album_title + ' - ' + self.artist
+        return self.game_name + ' - ' + self.gift_price
 
 
 class Song(models.Model):
-    album = models.ForeignKey(Album, on_delete=models.CASCADE)
+    game = models.ForeignKey(Game, on_delete=models.CASCADE)
     song_title = models.CharField(max_length=250)
     audio_file = models.FileField(default='')
     is_favorite = models.BooleanField(default=False)

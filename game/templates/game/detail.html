@@ -1,5 +1,5 @@
 {% extends 'game/base.html' %}
-{% block title %}{{ album }}{% endblock %}
+{% block title %}Game: {{ album.game_name }}{% endblock %}
 {% block albums_active %}active{% endblock %}
 {% block user %}{{ user.username }} {% endblock %}
 
@@ -8,23 +8,23 @@
 
     <div class="row">
 
-        <!-- Left Album Info -->
+        <!-- Left Game Info -->
         <div class="col-sm-4 col-md-3">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <a href="{% url 'game:detail' album.id %}">
-                        {% if album.album_logo %}
-                            <img src="{{ album.album_logo.url }}" class="img-responsive">
-                        {% else %}
-                            <h3>No image to display</h3>
-                        {% endif %}
-                    </a>
-                    <h1>{{ album.album_title }} <small>{{ album.genre }}</small></h1>
-                    <h2>{{ album.artist }}</h2>
-                    <h2>{{ album.game_name }}</h2>
-                    <h4>Start Time: {{ album.game_start_time }}</h4>
-                    <h4>Gift Price: {{ album.gift_price }}</h4>
-                    <h4># of Joke Gifts: {{ album.number_of_joke_gifts }}</h4>
+{#                    <a href="{% url 'game:detail' album.id %}">#}
+{#                        {% if album.album_logo %}#}
+{#                            <img src="{{ album.album_logo.url }}" class="img-responsive">#}
+{#                        {% else %}#}
+{#                            <h3>No image to display</h3>#}
+{#                        {% endif %}#}
+{#                    </a>#}
+{#                    <h1>Game:{{ album.game_name }} <small>{{ album.gift_price }}</small></h1>#}
+                    <h3>Game:{{ game.game_name }} </h3>
+{#                    <h2>{{ album.artist }}</h2>#}
+                    <h4>Start Time: {{ game.game_start_time }}</h4>
+                    <h4>Gift Price: {{ game.gift_price }}</h4>
+                    <h4># of Joke Gifts: {{ game.number_of_joke_gifts }}</h4>
                 </div>
             </div>
         </div>
@@ -33,8 +33,8 @@
         <div class="col-sm-8 col-md-9">
 
             <ul class="nav nav-pills" style="margin-bottom: 10px;">
-                <li role="presentation" class="active"><a href="{% url 'game:detail' album.id %}">View All</a></li>
-                <li role="presentation"><a href="{% url 'game:create_song' album.id %}">Add New Song</a></li>
+                <li role="presentation" class="active"><a href="{% url 'game:detail' game.id %}">View All</a></li>
+                <li role="presentation"><a href="{% url 'game:create_song' game.id %}">Add New Song</a></li>
             </ul>
 
             <div class="panel panel-default">
@@ -56,7 +56,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        {% for song in album.song_set.all %}
+                        {% for song in game.song_set.all %}
                             <tr>
                                 <td>{{ song.song_title }}</td>
                                 <td>
@@ -70,7 +70,7 @@
                                     <a href="{% url 'game:favorite' song.id %}" class="btn-favorite"><span class="glyphicon glyphicon-star {% if song.is_favorite %}active{% endif %}"></span></a>
                                 </td>
                                 <td>
-                                    <form action="{% url 'game:delete_song' album.id song.id %}" method="post" style="display: inline;">
+                                    <form action="{% url 'game:delete_song' game.id song.id %}" method="post" style="display: inline;">
                                         {% csrf_token %}
                                         <input type="hidden" name="song_id" value="{{ song.id }}" />
                                         <button type="submit" class="btn btn-danger btn-xs">

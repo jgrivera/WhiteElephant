@@ -7,7 +7,7 @@
 <div class="container-fluid songs-container">
     <div class="col-sm-12">
                 <br>
-                <a href="{% url 'game:create_album' %}">
+                <a href="{% url 'game:create_game' %}">
                     <button type="button" class="btn btn-success">
                         <span class="glyphicon glyphicon-plus"></span>&nbsp; Add Friends
                     </button>
@@ -55,7 +55,7 @@
                             {% for song in song_list %}
                                 <tr>
                                     <td>{{ song.song_title }}</td>
-                                    <td>{{ song.album.artist }}</td>
+                                    <td>{{ song.game.user }}</td>
                                     <td>
                                         <a target="_blank" href="{{ song.audio_file.url }}">
                                             <button type="button" class="btn btn-success btn-xs">
@@ -64,10 +64,10 @@
                                         </a>
                                     </td>
                                     <td>
-                                        <a href="{% url 'game:detail' song.album.id %}">
-                                            <img src="{{ song.album.album_logo.url }}" class="img-responsive" style="width: 20px; float: left; margin-right: 10px;" />
-                                        </a>
-                                        <a href="{% url 'game:detail' song.album.id %}">{{ song.album.album_title }}</a>
+{#                                        <a href="{% url 'game:detail' song.game.id %}">#}
+{#                                            <img src="{{ song.game.album_logo.url }}" class="img-responsive" style="width: 20px; float: left; margin-right: 10px;" />#}
+{#                                        </a>#}
+                                        <a href="{% url 'game:detail' song.game.id %}">{{ song.game.game_name }}</a>
                                     </td>
                                     <td>
                                         <a href="{% url 'game:favorite' song.id %}" class="btn-favorite"><span class="glyphicon glyphicon-star {% if song.is_favorite %}active{% endif %}"></span></a>

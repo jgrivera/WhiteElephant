@@ -1,13 +1,13 @@
 from django import forms
 from django.contrib.auth.models import User
 
-from .models import Album, Song
+from .models import Game, Song
 
 
-class AlbumForm(forms.ModelForm):
+class GameForm(forms.ModelForm):
 
     class Meta:
-        model = Album
+        model = Game
         # fields = ['artist', 'album_title', 'genre', 'album_logo']
         fields = ['game_name', 'game_start_time', 'gift_price', 'number_of_joke_gifts']
 

@@ -1,25 +1,25 @@
 {% extends 'game/base.html' %}
-{% block albums_active %}active{% endblock %}
+{% block games_active %}active{% endblock %}
 {% block user %}{{ user.username }} {% endblock %}
 
 {% block body %}
-<div class="albums-container container-fluid">
+<div class="games-container container-fluid">
     <div class="col-sm-12">
                 <br>
-                <a href="{% url 'game:create_album' %}">
+                <a href="{% url 'game:create_game' %}">
                     <button type="button" class="btn btn-success">
                         <span class="glyphicon glyphicon-plus"></span>&nbsp; Start New Game
                     </button>
                 </a>
     </div>
-    <!-- Albums -->
+    <!-- Games -->
 
         <div class="col-sm-12">
 {#            <h3>&nbsp;&nbsp;{{ user.username }}'s Games</h3>#}
             <h3>&nbsp;&nbsp;</h3>
         </div>
-        {% if albums %}
-            {% for album in albums %}
+        {% if games %}
+            {% for game in games %}
                 <div class="col-sm-4 col-lg-2">
                     <div class="thumbnail">
 {#                        <a href="{% url 'game:detail' album.id %}">#}
@@ -27,26 +27,26 @@
 {#                        </a>#}
 {#                    fields = ['game_name', 'game_start_time', 'gift_price', 'number_of_joke_gifts']#}
                         <div class="caption">
-                            <h2>{{ album.game_name }}</h2>
-                            <h4>Start Time: {{ album.game_start_time }}</h4>
-                            <h4>Gift Price: {{ album.gift_price }}</h4>
-                            <h4># of Joke Gifts: {{ album.number_of_joke_gifts }}</h4>
+                            <h2>{{ game.game_name }}</h2>
+                            <h4>Start Time: {{ game.game_start_time }}</h4>
+                            <h4>Gift Price: {{ game.gift_price }}</h4>
+                            <h4># of Joke Gifts: {{ game.number_of_joke_gifts }}</h4>
 
                             <!-- View Details -->
-                            <a href="{% url 'game:detail' album.id %}" class="btn btn-primary btn-sm" role="button">View Details</a>
+                            <a href="{% url 'game:detail' game.id %}" class="btn btn-primary btn-sm" role="button">View Details</a>
 
-                            <!-- Delete Album -->
-                            <form action="{% url 'game:delete_album' album.id %}" method="post" style="display: inline;">
+                            <!-- Delete Game -->
+                            <form action="{% url 'game:delete_game' game.id %}" method="post" style="display: inline;">
                                 {% csrf_token %}
-                                <input type="hidden" name="album_id" value="{{ album.id }}" />
+                                <input type="hidden" name="game_id" value="{{ game.id }}" />
                                 <button type="submit" class="btn btn-default btn-sm">
                                     <span class="glyphicon glyphicon-trash"></span>
                                 </button>
                             </form>
 
-                            <!-- Favorite Album -->
-                            <a href="{% url 'game:favorite_album' album.id %}" class="btn btn-default btn-sm btn-favorite" role="button">
-                                <span class="glyphicon glyphicon-star {% if album.is_favorite %}active{% endif %}"></span>
+                            <!-- Favorite Game -->
+                            <a href="{% url 'game:favorite_game' game.id %}" class="btn btn-default btn-sm btn-favorite" role="button">
+                                <span class="glyphicon glyphicon-star {% if game.is_favorite %}active{% endif %}"></span>
                             </a>
 
                         </div>
@@ -81,7 +81,7 @@
                                     <th>Song Title</th>
                                     <th>Artist</th>
                                     <th>Audio File</th>
-                                    <th>Album</th>
+                                    <th>Game</th>
                                     <th>Favorite</th>
                                 </tr>
                             </thead>
@@ -89,7 +89,7 @@
                                 {% for song in songs %}
                                     <tr>
                                         <td>{{ song.song_title }}</td>
-                                        <td>{{ song.album.artist }}</td>
+                                        <td>{{ song.game.user }}</td>
                                         <td>
                                             <a target="_blank" href="{{ song.audio_file.url }}">
                                                 <button type="button" class="btn btn-success btn-xs">
@@ -98,10 +98,10 @@
                                             </a>
                                         </td>
                                         <td>
-                                            <a href="{% url 'game:detail' song.album.id %}">
-                                                <img src="{{ song.album.album_logo.url }}" class="img-responsive" style="width: 20px; float: left; margin-right: 10px;" />
-                                            </a>
-                                            <a href="{% url 'game:detail' song.album.id %}">{{ song.album.album_title }}</a>
+{#                                            <a href="{% url 'game:detail' song.game.id %}">#}
+{#                                                <img src="{{ song.game.album_logo.url }}" class="img-responsive" style="width: 20px; float: left; margin-right: 10px;" />#}
+{#                                            </a>#}
+                                            <a href="{% url 'game:detail' song.game.id %}">{{ song.game.game_name }}</a>
                                         </td>
                                         <td>
                                             <a href="{% url 'game:favorite' song.id %}" class="btn-favorite"><span class="glyphicon glyphicon-star {% if song.is_favorite %}active{% endif %}"></span></a>

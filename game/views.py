@@ -3,8 +3,8 @@ from django.contrib.auth import logout
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
-from .forms import AlbumForm, SongForm, UserForm
-from .models import Album, Song
+from .forms import GameForm, SongForm, UserForm
+from .models import Game, Song
 
 AUDIO_FILE_TYPES = ['wav', 'mp3', 'ogg']
 IMAGE_FILE_TYPES = ['png', 'jpg', 'jpeg']
@@ -14,18 +14,18 @@ def profile(request):
         return render(request, 'game/login.html')
     else:
         user = request.user
-        userprofile = get_object_or_404(Album, pk=request.user)
-        return render(request, 'game/detail.html', {'album': userprofile, 'user': uid})
+        userprofile = get_object_or_404(Game, pk=request.user)
+        return render(request, 'game/detail.html', {'game': userprofile, 'user': uid})
 
 
-def create_album(request):
+def create_game(request):
     if not request.user.is_authenticated():
         return render(request, 'game/login.html')
     else:
-        form = AlbumForm(request.POST or None, request.FILES or None)
+        form = GameForm(request.POST or None, request.FILES or None)
         if form.is_valid():
-            album = form.save(commit=False)
-            album.user = request.user
+            game = form.save(commit=False)
+            game.user = request.user
             # album.album_logo = request.FILES['album_logo']
             # file_type = album.album_logo.url.split('.')[-1]
             # file_type = file_type.lower()
@@ -36,70 +36,70 @@ def create_album(request):
             #         'error_message': 'Image file must be PNG, JPG, or JPEG',
             #     }
             #     return render(request, 'game/create_album.html', context)
-            album.save()
-            return render(request, 'game/detail.html', {'album': album})
+            game.save()
+            return render(request, 'game/detail.html', {'game': game})
         context = {
             "form": form,
         }
-        return render(request, 'game/create_album.html', context)
+        return render(request, 'game/create_game.html', context)
 
 
-def create_song(request, album_id):
+def create_song(request, game_id):
     form = SongForm(request.POST or None, request.FILES or None)
-    album = get_object_or_404(Album, pk=album_id)
+    game = get_object_or_404(Game, pk=game_id)
     if form.is_valid():
-        albums_songs = album.song_set.all()
-        for s in albums_songs:
+        games_songs = game.song_set.all()
+        for s in games_songs:
             if s.song_title == form.cleaned_data.get("song_title"):
                 context = {
-                    'album': album,
+                    'game': game,
                     'form': form,
                     'error_message': 'You already added that song',
                 }
                 return render(request, 'game/create_song.html', context)
         song = form.save(commit=False)
-        song.album = album
+        song.game = game
         song.audio_file = request.FILES['audio_file']
         file_type = song.audio_file.url.split('.')[-1]
         file_type = file_type.lower()
         if file_type not in AUDIO_FILE_TYPES:
             context = {
-                'album': album,
+                'game': game,
                 'form': form,
                 'error_message': 'Audio file must be WAV, MP3, or OGG',
             }
             return render(request, 'game/create_song.html', context)
 
         song.save()
-        return render(request, 'game/detail.html', {'album': album})
+        return render(request, 'game/detail.html', {'game': game})
     context = {
-        'album': album,
+        'game': game,
         'form': form,
     }
     return render(request, 'game/create_song.html', context)
 
 
-def delete_album(request, album_id):
-    album = Album.objects.get(pk=album_id)
-    album.delete()
-    albums = Album.objects.filter(user=request.user)
-    return render(request, 'game/index.html', {'albums': albums})
+def delete_game(request, game_id):
+    game = Game.objects.get(pk=game_id)
+    game.delete()
+    games = Game.objects.filter(user=request.user)
+    return render(request, 'game/index.html', {'games': games})
 
 
-def delete_song(request, album_id, song_id):
-    album = get_object_or_404(Album, pk=album_id)
+def delete_song(request, game_id, song_id):
+    game = get_object_or_404(Game, pk=game_id)
     song = Song.objects.get(pk=song_id)
     song.delete()
-    return render(request, 'game/detail.html', {'album': album})
+    return render(request, 'game/detail.html', {'game': game})
 
 
-def detail(request, album_id):
+def detail(request, game_id):
     if not request.user.is_authenticated():
         return render(request, 'game/login.html')
     else:
         user = request.user
-        album = get_object_or_404(Album, pk=album_id)
-        return render(request, 'game/detail.html', {'album': album, 'user': user})
+        game = get_object_or_404(Game, pk=game_id)
+        return render(request, 'game/detail.html', {'game': game, 'user': user})
 
 
 def favorite(request, song_id):
@@ -116,41 +116,42 @@ def favorite(request, song_id):
         return JsonResponse({'success': True})
 
 
-def favorite_album(request, album_id):
-    album = get_object_or_404(Album, pk=album_id)
+def favorite_game(request, game_id):
+    game = get_object_or_404(Game, pk=game_id)
     try:
-        if album.is_favorite:
-            album.is_favorite = False
+        if game.is_favorite:
+            game.is_favorite = False
         else:
-            album.is_favorite = True
-        album.save()
-    except (KeyError, Album.DoesNotExist):
+            game.is_favorite = True
+        game.save()
+    except (KeyError, Game.DoesNotExist):
         return JsonResponse({'success': False})
     else:
         return JsonResponse({'success': True})
+
 
 
 def index(request):
     if not request.user.is_authenticated():
         return render(request, 'game/login.html')
     else:
-        albums = Album.objects.filter(user=request.user)
+        games = Game.objects.filter(user=request.user)
         song_results = Song.objects.all()
         query = request.GET.get("q")
         if query:
-            albums = albums.filter(
-                Q(album_title__icontains=query) |
+            games = games.filter(
+                Q(game_title__icontains=query) |
                 Q(artist__icontains=query)
             ).distinct()
             song_results = song_results.filter(
                 Q(song_title__icontains=query)
             ).distinct()
             return render(request, 'game/index.html', {
-                'albums': albums,
+                'games': games,
                 'songs': song_results,
             })
         else:
-            return render(request, 'game/index.html', {'albums': albums})
+            return render(request, 'game/index.html', {'games': games})
 
 
 def logout_user(request):
@@ -173,8 +174,8 @@ def login_user(request):
         if user is not None:
             if user.is_active:
                 login(request, user)
-                albums = Album.objects.filter(user=request.user)
-                return render(request, 'game/index.html', {'albums': albums})
+                games = Game.objects.filter(user=request.user)
+                return render(request, 'game/index.html', {'games': games})
             else:
                 return render(request, 'game/login.html', {'error_message': 'Your account has been disabled'})
         else:
@@ -194,8 +195,8 @@ def register(request):
         if user is not None:
             if user.is_active:
                 login(request, user)
-                albums = Album.objects.filter(user=request.user)
-                return render(request, 'game/index.html', {'albums': albums})
+                games = Game.objects.filter(user=request.user)
+                return render(request, 'game/index.html', {'games': games})
     context = {
         "form": form,
     }
@@ -208,13 +209,13 @@ def friends(request, filter_by):
     else:
         try:
             song_ids = []
-            for album in Album.objects.filter(user=request.user):
-                for song in album.song_set.all():
+            for game in Game.objects.filter(user=request.user):
+                for song in game.song_set.all():
                     song_ids.append(song.pk)
             users_songs = Song.objects.filter(pk__in=song_ids)
             if filter_by == 'favorites':
                 users_songs = users_songs.filter(is_favorite=True)
-        except Album.DoesNotExist:
+        except Game.DoesNotExist:
             users_songs = []
         return render(request, 'game/friends.html', {
             'song_list': users_songs,
