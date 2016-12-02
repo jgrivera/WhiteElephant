@@ -35,7 +35,7 @@ def create_game(request):
             #         'form': form,
             #         'error_message': 'Image file must be PNG, JPG, or JPEG',
             #     }
-            #     return render(request, 'game/create_album.html', context)
+            #     return render(request, 'game/create_game.html', context)
             game.save()
             return render(request, 'game/detail.html', {'game': game})
         context = {
