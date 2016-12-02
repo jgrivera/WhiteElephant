@@ -7,14 +7,11 @@ import allauth.app_settings
 
 class Game(models.Model):
     user = models.ForeignKey(User, default=1)
-    #artist = models.CharField(max_length=250)
-    #album_title = models.CharField(max_length=500)
     game_name = models.CharField(max_length=500)
     game_start_time = models.CharField(max_length=500)
     gift_price = models.CharField(max_length=500)
     number_of_joke_gifts = models.CharField(max_length=500)
     genre = models.CharField(max_length=100)
-    # album_logo = models.FileField()
     is_favorite = models.BooleanField(default=False)
 
     def __str__(self):

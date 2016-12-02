@@ -134,3 +134,30 @@ ul.errorlist > li {
 .white, .white a {
   color: #fff;
 }
+
+table {
+    width:100%;
+}
+
+table, th, td {
+    border: 3px solid lightgrey;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 5px;
+    text-align: left;
+}
+
+table#t01 tr:nth-child(even) {
+    background-color: #F5F9F9;
+}
+
+table#t01 tr:nth-child(odd) {
+   background-color:#DBF7F5;
+}
+
+table#t01 th {
+    background-color: #5cb85c;
+    color: white;
+}

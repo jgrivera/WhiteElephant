@@ -5,116 +5,78 @@
 {% block body %}
 <div class="games-container container-fluid">
     <div class="col-sm-12">
-                <br>
-                <a href="{% url 'game:create_game' %}">
-                    <button type="button" class="btn btn-success">
-                        <span class="glyphicon glyphicon-plus"></span>&nbsp; Start New Game
-                    </button>
-                </a>
+        <br>
+            <a href="{% url 'game:create_game' %}">
+                <button type="button" class="btn btn-success">
+                    <span class="glyphicon glyphicon-plus"></span>&nbsp; Start New Game
+                </button>
+            </a>
+        <br><br>
     </div>
     <!-- Games -->
 
-        <div class="col-sm-12">
-{#            <h3>&nbsp;&nbsp;{{ user.username }}'s Games</h3>#}
-            <h3>&nbsp;&nbsp;</h3>
-        </div>
+{#        <div class="col-sm-12">#}
+{#            <h3>&nbsp;&nbsp;</h3>#}
+{#        </div>#}
         {% if games %}
-            {% for game in games %}
-                <div class="col-sm-4 col-lg-2">
-                    <div class="thumbnail">
-{#                        <a href="{% url 'game:detail' album.id %}">#}
-{#                            <img src="{{ album.album_logo.url }}" class="img-responsive">#}
-{#                        </a>#}
-{#                    fields = ['game_name', 'game_start_time', 'gift_price', 'number_of_joke_gifts']#}
-                        <div class="caption">
-                            <h2>{{ game.game_name }}</h2>
-                            <h4>Start Time: {{ game.game_start_time }}</h4>
-                            <h4>Gift Price: {{ game.gift_price }}</h4>
-                            <h4># of Joke Gifts: {{ game.number_of_joke_gifts }}</h4>
 
-                            <!-- View Details -->
-                            <a href="{% url 'game:detail' game.id %}" class="btn btn-primary btn-sm" role="button">View Details</a>
 
-                            <!-- Delete Game -->
-                            <form action="{% url 'game:delete_game' game.id %}" method="post" style="display: inline;">
-                                {% csrf_token %}
-                                <input type="hidden" name="game_id" value="{{ game.id }}" />
-                                <button type="submit" class="btn btn-default btn-sm">
-                                    <span class="glyphicon glyphicon-trash"></span>
-                                </button>
-                            </form>
+{#        Adding a table for Games    #}
+        <div class="panel panel-default">
+                <div class="panel-body">
 
-                            <!-- Favorite Game -->
-                            <a href="{% url 'game:favorite_game' game.id %}" class="btn btn-default btn-sm btn-favorite" role="button">
-                                <span class="glyphicon glyphicon-star {% if game.is_favorite %}active{% endif %}"></span>
-                            </a>
+                    {% if error_message %}
+                        <p><strong>{{ error_message }}</strong></p>
+                    {% endif %}
 
-                        </div>
-                    </div>
+                    <table class="table" id="t01">
+                        <thead>
+                        <tr>
+                            <th colspan="2">Game Name</th>
+                            <th>Hosting</th>
+                            <th>Status</th>
+                            <th>Duration</th>
+                            <th># of Players</th>
+                            <th>Current Player<br><small>[turn]/(time remaining)</small></th>
+                            <th>Next Turn</th>
+                            <th>My Turn</th>
+                            <th>Next Action</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {% for game in games %}
+                                <tr>
+                                    <td align="justify">
+                                        <a href="{% url 'game:detail' game.id %}">{{ game.game_name }}</a>
+                                    </td>
+                                    <td align="justify">
+                                        <form action="{% url 'game:delete_game' game.id %}" method="post" style="display: inline;">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="game_id" value="{{ game.id }}" />
+                                            <button type="submit" class="btn btn-default btn-xs">
+                                                <span class="glyphicon glyphicon-trash"></span>
+                                            </button>
+                                        </form>
+                                    </td>
+                                    <td>{{ game.user }}</td>
+                                    <td>{{ game.status }}</td>
+                                    <td>{{ game.duration }}</td>
+                                    <td>{{ game.number_of_players }}</td>
+                                    <td>{{ game.current_player }}</td>
+                                    <td>{{ game.next_turn }}</td>
+                                    <td>{{ game.my_turn }}</td>
+                                    <td>{{ game.next_action }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
                 </div>
-                {% cycle '' '' '' '' '' '<div class="clearfix visible-lg"></div>' %}
-            {% endfor %}
-{#        {% else %}#}
-{#            <div class="col-sm-12">#}
-{#                <br>#}
-{#                <a href="{% url 'game:create_album' %}">#}
-{#                    <button type="button" class="btn btn-success">#}
-{#                        <span class="glyphicon glyphicon-plus"></span>&nbsp; Add a Game#}
-{#                    </button>#}
-{#                </a>#}
-{#            </div>#}
+            </div>
+
         {% endif %}
     </div>
-
-    <!-- If user searches and there are songs -->
-    {% if songs %}
-        <div class="row">
-            <div class="col-sm-12">
-                <h3>Songs</h3>
-            </div>
-            <div class="col-sm-12">
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Song Title</th>
-                                    <th>Artist</th>
-                                    <th>Audio File</th>
-                                    <th>Game</th>
-                                    <th>Favorite</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for song in songs %}
-                                    <tr>
-                                        <td>{{ song.song_title }}</td>
-                                        <td>{{ song.game.user }}</td>
-                                        <td>
-                                            <a target="_blank" href="{{ song.audio_file.url }}">
-                                                <button type="button" class="btn btn-success btn-xs">
-                                                    <span class="glyphicon glyphicon-play"></span>&nbsp; Play
-                                                </button>
-                                            </a>
-                                        </td>
-                                        <td>
-{#                                            <a href="{% url 'game:detail' song.game.id %}">#}
-{#                                                <img src="{{ song.game.album_logo.url }}" class="img-responsive" style="width: 20px; float: left; margin-right: 10px;" />#}
-{#                                            </a>#}
-                                            <a href="{% url 'game:detail' song.game.id %}">{{ song.game.game_name }}</a>
-                                        </td>
-                                        <td>
-                                            <a href="{% url 'game:favorite' song.id %}" class="btn-favorite"><span class="glyphicon glyphicon-star {% if song.is_favorite %}active{% endif %}"></span></a>
-                                        </td>
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    {% endif %}
 
 </div>
 {% endblock %}
