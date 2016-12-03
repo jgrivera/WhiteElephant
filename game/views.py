@@ -135,19 +135,6 @@ def favorite_game(request, game_id):
 
 
 def index(request):
-    # if mobileBrowser(request):
-    #     this_html = "game/m_index.html"
-    # else:
-    #     this_html = "game/index.html"
-    # c = Context({})  # normally your page data would go here
-    # # return HttpResponse(t.render(c))
-    if request.flavour == "mobile":
-        this_html = "game/m_index.html"
-    else:
-        this_html = "game/index.html"
-    c = Context({})  # normally your page data would go here
-    # return HttpResponse(t.render(c))
-
 
     if not request.user.is_authenticated():
         return render(request, 'game/login.html')
@@ -163,13 +150,12 @@ def index(request):
             song_results = song_results.filter(
                 Q(song_title__icontains=query)
             ).distinct()
-            return render(request, this_html, {
+            return render(request, 'game/index.html', {
                 'games': games,
                 'songs': song_results,
             })
         else:
-            # return render(request, 'game/index.html', {'games': games})
-            return render(request, this_html, {'games': games})
+            return render(request, 'game/index.html', {'games': games})
 
 
 def logout_user(request):
