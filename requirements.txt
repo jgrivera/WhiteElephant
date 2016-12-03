@@ -4,6 +4,7 @@ defusedxml==0.4.1
 Django==1.10.3
 django-allauth==0.29.0
 django-configurations==2.0
+django-mobile==0.7.0
 django-paypal==0.3.3
 django-socialprofile==1.2.1
 incremental==16.10.1

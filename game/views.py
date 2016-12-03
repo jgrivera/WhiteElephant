@@ -9,36 +9,6 @@ from .models import Game, Song
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.template import Context, loader
 
-# list of mobile User Agents
-mobile_uas = [
-    'w3c ', 'acs-', 'alav', 'alca', 'amoi', 'audi', 'avan', 'benq', 'bird', 'blac',
-    'blaz', 'brew', 'cell', 'cldc', 'cmd-', 'dang', 'doco', 'eric', 'hipt', 'inno',
-    'ipaq', 'java', 'jigs', 'kddi', 'keji', 'leno', 'lg-c', 'lg-d', 'lg-g', 'lge-',
-    'maui', 'maxo', 'midp', 'mits', 'mmef', 'mobi', 'mot-', 'moto', 'mwbp', 'nec-',
-    'newt', 'noki', 'oper', 'palm', 'pana', 'pant', 'phil', 'play', 'port', 'prox',
-    'qwap', 'sage', 'sams', 'sany', 'sch-', 'sec-', 'send', 'seri', 'sgh-', 'shar',
-    'sie-', 'siem', 'smal', 'smar', 'sony', 'sph-', 'symb', 't-mo', 'teli', 'tim-',
-    'tosh', 'tsm-', 'upg1', 'upsi', 'vk-v', 'voda', 'wap-', 'wapa', 'wapi', 'wapp',
-    'wapr', 'webc', 'winw', 'winw', 'xda', 'xda-'
-]
-
-mobile_ua_hints = ['SymbianOS', 'Opera Mini', 'iPhone']
-
-
-def mobileBrowser(request):
-    # ''' Super simple device detection, returns True for mobile devices '''
-    mobile_browser = False
-    ua = request.META['HTTP_USER_AGENT'].lower()[0:4]
-
-    if (ua in mobile_uas):
-        mobile_browser = True
-    else:
-        for hint in mobile_ua_hints:
-            if request.META['HTTP_USER_AGENT'].find(hint) > 0:
-                mobile_browser = True
-
-    return mobile_browser
-
 AUDIO_FILE_TYPES = ['wav', 'mp3', 'ogg']
 IMAGE_FILE_TYPES = ['png', 'jpg', 'jpeg']
 
@@ -165,12 +135,19 @@ def favorite_game(request, game_id):
 
 
 def index(request):
-    if mobileBrowser(request):
+    # if mobileBrowser(request):
+    #     this_html = "game/m_index.html"
+    # else:
+    #     this_html = "game/index.html"
+    # c = Context({})  # normally your page data would go here
+    # # return HttpResponse(t.render(c))
+    if request.flavour == "mobile":
         this_html = "game/m_index.html"
     else:
         this_html = "game/index.html"
     c = Context({})  # normally your page data would go here
     # return HttpResponse(t.render(c))
+
 
     if not request.user.is_authenticated():
         return render(request, 'game/login.html')
