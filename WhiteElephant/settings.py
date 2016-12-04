@@ -14,6 +14,15 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'rha7*we-io_dbhnf$k)%wum_i=-fct9+n^j+@5j9p*$z01lzj1'
 
+# # List of callables that know how to import templates from various sources.
+# TEMPLATE_LOADERS = (
+#     ('django_mobile.loader.CachedLoader', (
+#         'django_mobile.loader.Loader',
+#         'django.template.loaders.filesystem.Loader',
+#         'django.template.loaders.app_directories.Loader',
+#     )),
+# )
+
 
 
 ALLOWED_HOSTS = ['*']
@@ -35,6 +44,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.amazon',
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.google',
+    'django_mobile',
 ]
 
 LOGIN_REDIRECT_URL = ('/')
@@ -49,6 +59,8 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_mobile.middleware.MobileDetectionMiddleware',
+    'django_mobile.middleware.SetFlavourMiddleware',
 ]
 
 ROOT_URLCONF = 'WhiteElephant.urls'
@@ -57,18 +69,25 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [],
-        'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'django_mobile.context_processors.flavour',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.request',
             ],
+            'loaders': [
+                'django_mobile.loader.Loader',
+                'django.template.loaders.filesystem.Loader',
+                'django.template.loaders.app_directories.Loader',
+            ],
         },
     },
 ]
+
+TEMPLATE_LOADERS = TEMPLATES[0]['OPTIONS']['loaders']
 
 WSGI_APPLICATION = 'WhiteElephant.wsgi.application'
 
