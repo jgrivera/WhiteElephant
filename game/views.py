@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
 from django.http import JsonResponse
+from django.views.decorators.http import require_http_methods
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
 from .forms import GameForm, SongForm, UserForm
@@ -51,6 +52,7 @@ def profile(request):
         return render(request, 'game/detail.html', {'game': userprofile, 'user': uid})
 
 
+@require_http_methods(["GET", "POST"])
 def create_game(request):
     if not request.user.is_authenticated():
         return render(request, 'game/login.html')

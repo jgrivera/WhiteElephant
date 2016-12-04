@@ -14,6 +14,12 @@ class Game(models.Model):
     genre = models.CharField(max_length=100)
     is_favorite = models.BooleanField(default=False)
 
+    class Meta:
+        managed = False
+        db_table = 'Game'
+        get_latest_by = 'game_start_time'
+        verbose_name = 'game information'
+
     def __str__(self):
         return self.game_name + ' - ' + self.gift_price
 
@@ -24,6 +30,7 @@ class Song(models.Model):
     audio_file = models.FileField(default='')
     is_favorite = models.BooleanField(default=False)
 
+
     def __str__(self):
         return self.song_title
 #  Models for WhiteElephant
@@ -31,17 +38,47 @@ class Song(models.Model):
 
 
 class Addresses(models.Model):
+    user_id = models.ForeignKey(allauth.app_settings.USER_MODEL, on_delete=models.CASCADE)
     address_1 = models.CharField(max_length=45)
     address_2 = models.CharField(max_length=45, blank=True, null=True)
-    user_id = models.ForeignKey(allauth.app_settings.USER_MODEL, on_delete=models.CASCADE)
-    state_id = models.IntegerField()
-    country_id = models.IntegerField()
-    city_id = models.IntegerField()
-    zip_id = models.IntegerField()
+    state_id = models.ForeignKey('States', models.DO_NOTHING)
+    country_id = models.ForeignKey('Countries', models.DO_NOTHING)
+    city_id = models.ForeignKey('Cities', models.DO_NOTHING)
+    zip_id = models.ForeignKey('ZipCodes', models.DO_NOTHING)
 
     class Meta:
         managed = False
         db_table = 'Addresses'
+        ordering = ["user_id"]
+        verbose_name = 'address of the user'
+
+    def __str__(self):
+        return self.address_1
+
+    def _get_address(self):
+        "Returns the full address."
+        return '%s %s %s %s' % (self.address_1, self.address_2)
+    full_address = property(_get_address)
+
+
+class Cities(models.Model):
+    name = models.CharField(max_length=45)
+
+    class Meta:
+        managed = False
+        db_table = 'Cities'
+        ordering = ["name"]
+        verbose_name = 'list of all cities'
+
+
+class ZipCodes(models.Model):
+    zipcode = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'ZipCodes'
+        ordering = ["zipcode"]
+        verbose_name = 'list of all zipcodes'
 
 
 class Affiliates(models.Model):
@@ -50,6 +87,7 @@ class Affiliates(models.Model):
     class Meta:
         managed = False
         db_table = 'Affiliates'
+        verbose_name = 'affiliates who offer gifts'
 
 
 class Countries(models.Model):
@@ -63,6 +101,8 @@ class Countries(models.Model):
     class Meta:
         managed = False
         db_table = 'Countries'
+        ordering = ["name"]
+        verbose_name = 'country list'
 
 
 class Emails(models.Model):
@@ -74,6 +114,8 @@ class Emails(models.Model):
     class Meta:
         managed = False
         db_table = 'Emails'
+        ordering = ["user_id"]
+        verbose_name = 'email address of the user'
 
 
 class Gamegifts(models.Model):
@@ -89,6 +131,8 @@ class Gamegifts(models.Model):
     class Meta:
         managed = False
         db_table = 'GameGifts'
+        ordering = ["game_id"]
+        verbose_name = 'gift in a particular game'
 
 
 class Games(models.Model):
@@ -103,18 +147,22 @@ class Games(models.Model):
     class Meta:
         managed = False
         db_table = 'Games'
+        ordering = ["starttime"]
+        verbose_name = 'a game'
 
 
 class Gifttrails(models.Model):
     id = models.BigIntegerField(primary_key=True)
+    game_id = models.ForeignKey(Games, models.DO_NOTHING)
     gift_id = models.ForeignKey('Gifts', models.DO_NOTHING)
     user_id = models.ForeignKey(allauth.app_settings.USER_MODEL,  on_delete=models.DO_NOTHING)
-    game_id = models.ForeignKey(Games, models.DO_NOTHING)
     created = models.DateTimeField()
 
     class Meta:
         managed = False
         db_table = 'GiftTrails'
+        ordering = ["game_id"]
+        verbose_name = 'who has had the gift'
 
 
 class Gifttypes(models.Model):
@@ -123,6 +171,7 @@ class Gifttypes(models.Model):
     class Meta:
         managed = False
         db_table = 'GiftTypes'
+        verbose_name = 'the gift type'
 
 
 class Gifts(models.Model):
@@ -136,6 +185,7 @@ class Gifts(models.Model):
     class Meta:
         managed = False
         db_table = 'Gifts'
+        verbose_name = 'a gift item'
 
 
 class Github(models.Model):
@@ -165,6 +215,7 @@ class Messages(models.Model):
     class Meta:
         managed = False
         db_table = 'Messages'
+        verbose_name = 'a user message'
 
 
 class Moods(models.Model):
@@ -174,6 +225,7 @@ class Moods(models.Model):
     class Meta:
         managed = False
         db_table = 'Moods'
+        verbose_name = 'a user mood'
 
 
 class Notificationtypes(models.Model):
@@ -182,6 +234,7 @@ class Notificationtypes(models.Model):
     class Meta:
         managed = False
         db_table = 'NotificationTypes'
+        verbose_name = 'notification type'
 
 
 class Notifications(models.Model):
@@ -189,12 +242,14 @@ class Notifications(models.Model):
     from_user_id = models.ForeignKey(allauth.app_settings.USER_MODEL, on_delete=models.CASCADE, related_name="from_user_id")
     to_user_id = models.ForeignKey(allauth.app_settings.USER_MODEL, on_delete=models.CASCADE, related_name="to_user_id")
     status_id = models.ForeignKey('Status', models.DO_NOTHING)
-    message = models.ForeignKey(Messages, models.DO_NOTHING)
+    message_id = models.ForeignKey(Messages, models.DO_NOTHING)
     created = models.DateTimeField()
 
     class Meta:
         managed = False
         db_table = 'Notifications'
+        ordering = ["from_user_id"]
+        verbose_name = 'notification record'
 
 
 class Phonenumbers(models.Model):
@@ -205,6 +260,7 @@ class Phonenumbers(models.Model):
     class Meta:
         managed = False
         db_table = 'PhoneNumbers'
+        ordering = ["user_id"]
 
 
 class Players(models.Model):
@@ -220,6 +276,8 @@ class Players(models.Model):
     class Meta:
         managed = False
         db_table = 'Players'
+        ordering = ["game_id"]
+        verbose_name = 'a person playing the game'
 
 
 class Playersmoods(models.Model):
@@ -231,6 +289,8 @@ class Playersmoods(models.Model):
     class Meta:
         managed = False
         db_table = 'PlayersMoods'
+        ordering = ["game_id"]
+        verbose_name = 'the current mood of the player'
 
 
 class Prices(models.Model):
@@ -239,6 +299,8 @@ class Prices(models.Model):
     class Meta:
         managed = False
         db_table = 'Prices'
+        ordering = ["price"]
+        verbose_name = 'available gift price'
 
 
 class Roles(models.Model):
@@ -247,6 +309,7 @@ class Roles(models.Model):
     class Meta:
         managed = False
         db_table = 'Roles'
+        verbose_name = 'role name'
 
 
 class Status(models.Model):
@@ -255,6 +318,7 @@ class Status(models.Model):
     class Meta:
         managed = False
         db_table = 'Status'
+        verbose_name = 'status of play'
 
 
 class Twillio(models.Model):
