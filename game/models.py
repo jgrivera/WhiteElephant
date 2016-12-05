@@ -5,6 +5,7 @@ from django.db import models
 
 import allauth.app_settings
 
+
 class Game(models.Model):
     user = models.ForeignKey(User, default=1)
     game_name = models.CharField(max_length=500)
@@ -15,8 +16,7 @@ class Game(models.Model):
     is_favorite = models.BooleanField(default=False)
 
     class Meta:
-        managed = False
-        db_table = 'Game'
+        managed = True
         get_latest_by = 'game_start_time'
         verbose_name = 'game information'
 
@@ -41,7 +41,7 @@ class Addresses(models.Model):
     user_id = models.ForeignKey(allauth.app_settings.USER_MODEL, on_delete=models.CASCADE)
     address_1 = models.CharField(max_length=45)
     address_2 = models.CharField(max_length=45, blank=True, null=True)
-    state_id = models.ForeignKey('States', models.DO_NOTHING)
+    # state_id = models.ForeignKey('States', models.DO_NOTHING)
     country_id = models.ForeignKey('Countries', models.DO_NOTHING)
     city_id = models.ForeignKey('Cities', models.DO_NOTHING)
     zip_id = models.ForeignKey('ZipCodes', models.DO_NOTHING)
