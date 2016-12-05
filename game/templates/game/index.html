@@ -31,48 +31,59 @@
                         <p><strong>{{ error_message }}</strong></p>
                     {% endif %}
 
-                    <table class="table" id="t01">
-                        <thead>
-                        <tr>
-                            <th colspan="2">Game Name</th>
-                            <th>Hosting</th>
-                            <th>Status</th>
-                            <th>Duration</th>
-                            <th># of Players</th>
-                            <th>Current Player<br><small>[turn]/(time remaining)</small></th>
-                            <th>Next Turn</th>
-                            <th>My Turn</th>
-                            <th>Next Action</th>
+{#                    <div class="table">#}
+{#                        <table class="table table-striped table-bordered" id="t01">#}
 
-                        </tr>
-                        </thead>
-                        <tbody>
-                            {% for game in games %}
-                                <tr>
-                                    <td align="justify">
-                                        <a href="{% url 'game:detail' game.id %}">{{ game.game_name }}</a>
-                                    </td>
-                                    <td align="justify">
-                                        <form action="{% url 'game:delete_game' game.id %}" method="post" style="display: inline;">
-                                            {% csrf_token %}
-                                            <input type="hidden" name="game_id" value="{{ game.id }}" />
-                                            <button type="submit" class="btn btn-default btn-xs">
-                                                <span class="glyphicon glyphicon-trash"></span>
-                                            </button>
-                                        </form>
-                                    </td>
-                                    <td>{{ game.user }}</td>
-                                    <td>{{ game.status }}</td>
-                                    <td>{{ game.duration }}</td>
-                                    <td>{{ game.number_of_players }}</td>
-                                    <td>{{ game.current_player }}</td>
-                                    <td>{{ game.next_turn }}</td>
-                                    <td>{{ game.my_turn }}</td>
-                                    <td>{{ game.next_action }}</td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                        <table class="table table-striped table-bordered" id="t01">
+                            <thead>
+                            <tr>
+                                <th>Game Name</th>
+                                <th>Tools</th>
+                                <th>Hosting</th>
+                                <th>Status</th>
+                                <th>Start Time</th>
+                                <th>Duration</th>
+                                <th>Gift Price</th>
+                                <th># of joke gifts</th>
+                                <th># of Players</th>
+                                <th>Current Player<br><small>[turn]/(time remaining)</small></th>
+                                <th>Next Turn</th>
+                                <th>My Turn</th>
+                                <th>Next Action</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                                {% for game in games %}
+                                    <tr>
+                                        <td data-label="Game Name" align="justify">
+                                            <a href="{% url 'game:detail' game.id %}">{{ game.game_name }}</a>
+                                        </td>
+                                        <td data-label="Tools" align="justify">
+                                            <form action="{% url 'game:delete_game' game.id %}" method="post" style="display: inline;">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="game_id" value="{{ game.id }}" />
+                                                <button type="submit" class="btn btn-default btn-xs">
+                                                    <span class="glyphicon glyphicon-trash"></span>
+                                                </button>
+                                            </form>
+                                        </td>
+                                        <td data-label="Hosting">{{ game.user }}</td>
+                                        <td data-label="Status">{{ game.status }}</td>
+                                        <td data-label="Start Time">{{ game.game_start_time }}</td>
+                                        <td data-label="Duration">{{ game.duration }}</td>
+                                        <td data-label="Gift Price">{{ game.gift_price }}</td>
+                                        <td data-label="# of joke gifts">{{ game.number_of_joke_gifts }}</td>
+                                        <td data-label="# of Players">{{ game.number_of_players }}</td>
+                                        <td data-label="Current Player">{{ game.current_player }}</td>
+                                        <td data-label="Next Turn">{{ game.next_turn }}</td>
+                                        <td data-label="My Turn">{{ game.my_turn }}</td>
+                                        <td data-label="Next Action">{{ game.next_action }} </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+{#                    </div>#}
 
                 </div>
             </div>
