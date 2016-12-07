@@ -5,7 +5,11 @@ h3 {
 
 body {
     background: white url("images/background.png");
-background-size: 100% 100%;
+}
+
+.panel {
+    min-width: 280px;
+
 }
 
 .row {
@@ -21,6 +25,7 @@ ul.errorlist > li {
 
 .navbar {
     border-radius: 0;
+    min-width: 200px;
 }
 
 .navbar-brand {
@@ -111,21 +116,21 @@ ul.errorlist > li {
   color: #ecdbff;
 }
 
-/*@media (max-width: 767px) {*/
-  /*.navbar-default .navbar-nav .open .dropdown-menu > li > a {*/
-    /*color: #ecf0f1;*/
-  /*}*/
-  /*.navbar-default .navbar-nav .open .dropdown-menu > li > a:hover,*/
-  /*.navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {*/
-    /*color: #ecdbff;*/
-  /*}*/
-  /*.navbar-default .navbar-nav .open .dropdown-menu > .active > a,*/
-  /*.navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover,*/
-  /*.navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {*/
-    /*color: #ecdbff;*/
-    /*background-color: #8e44ad;*/
-  /*}*/
-/*}*/
+@media (max-width: 768px) {
+  .navbar-default .navbar-nav .open .dropdown-menu > li > a {
+    color: #ecf0f1;
+  }
+  .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover,
+  .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
+    color: #ecdbff;
+  }
+  .navbar-default .navbar-nav .open .dropdown-menu > .active > a,
+  .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover,
+  .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
+    color: #ecdbff;
+    background-color: #8e44ad;
+  }
+}
 
 .img-responsive {
   display: inline-block;
@@ -172,6 +177,7 @@ table#t01 th {
     padding:0;
     border-collapse: collapse;
     border-spacing: 0;
+    min-width: 200px;
 }
 
 table tr {
@@ -193,6 +199,7 @@ table th {
 	table {
 		overflow-x: auto;
         display: block;
+
 	}
     table th {
     /*text-transform: uppercase;*/
@@ -205,6 +212,7 @@ table th {
     table {
         border: 0;
         overflow-x: auto;
+
 
     }
 
@@ -254,25 +262,20 @@ table th {
 /* Smartphones (portrait and landscape) ----------- */
 	@media only screen
 	and (min-device-width : 320px)
-	and (max-device-width : 480px) {
-		html, body {
-			padding: 0;
-			margin: 0;
- 			background: white;
-			/*width: 320px;*/
-			background-size: 100% 100%;
-			}
-		#container {
-                width: inherit;
-                height: inherit;
-                margin: 0;
-                padding: 0;
-                background-color: pink;
-		}
+	and (max-device-width : 400px) {
+		body {
+            min-width: 200px;
+            /*padding: 0;*/
+            /*margin: 0;*/
+            /*background: white;*/
+            /*width: 320px;*/
+            /*background-size: 320px;*/
+
+        }
     table {
         border: 0;
         overflow-x: auto;
-	/*width: 600px;*/
+        min-width: 200px;
     }
 
     table thead {
