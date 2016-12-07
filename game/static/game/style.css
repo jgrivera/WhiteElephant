@@ -111,21 +111,21 @@ ul.errorlist > li {
   color: #ecdbff;
 }
 
-@media (max-width: 767px) {
-  .navbar-default .navbar-nav .open .dropdown-menu > li > a {
-    color: #ecf0f1;
-  }
-  .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover,
-  .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
-    color: #ecdbff;
-  }
-  .navbar-default .navbar-nav .open .dropdown-menu > .active > a,
-  .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover,
-  .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
-    color: #ecdbff;
-    background-color: #8e44ad;
-  }
-}
+/*@media (max-width: 767px) {*/
+  /*.navbar-default .navbar-nav .open .dropdown-menu > li > a {*/
+    /*color: #ecf0f1;*/
+  /*}*/
+  /*.navbar-default .navbar-nav .open .dropdown-menu > li > a:hover,*/
+  /*.navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {*/
+    /*color: #ecdbff;*/
+  /*}*/
+  /*.navbar-default .navbar-nav .open .dropdown-menu > .active > a,*/
+  /*.navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover,*/
+  /*.navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {*/
+    /*color: #ecdbff;*/
+    /*background-color: #8e44ad;*/
+  /*}*/
+/*}*/
 
 .img-responsive {
   display: inline-block;
@@ -259,7 +259,7 @@ table th {
 			padding: 0;
 			margin: 0;
  			background: white;
-			width: 320px;
+			/*width: 320px;*/
 			background-size: 100% 100%;
 			}
 		#container {
@@ -272,7 +272,7 @@ table th {
     table {
         border: 0;
         overflow-x: auto;
-	width: 600px;
+	/*width: 600px;*/
     }
 
     table thead {
@@ -319,8 +319,8 @@ table th {
 }
 
 	/* iPads (portrait and landscape) ----------- */
-	@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
-		body {
-			width: 495px;
-		}
-	}
+	/*@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {*/
+		/*body {*/
+			/*width: 495px;*/
+		/*}*/
+	/*}*/
