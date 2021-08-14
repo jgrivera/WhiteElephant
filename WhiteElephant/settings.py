@@ -10,10 +10,10 @@ DEBUG = False
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+#testing a change - juan rivera
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'rha7*we-io_dbhnf$k)%wum_i=-fct9+n^j+@5j9p*$z01lzj1'
-
+#test2 - juan rivera
 # # List of callables that know how to import templates from various sources.
 # TEMPLATE_LOADERS = (
 #     ('django_mobile.loader.CachedLoader', (
